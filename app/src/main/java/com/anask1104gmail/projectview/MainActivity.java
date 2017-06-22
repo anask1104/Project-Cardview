@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mBloglist.setLayoutManager(new LinearLayoutManager(this));
         mProgress = new ProgressDialog(this);
 
-
+        firebaseRecyclerView();
 
 
 
@@ -78,9 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+
+    protected void firebaseRecyclerView(){
 
 
         final FirebaseRecyclerAdapter<Blog, BlogViewHolder> firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Blog, BlogViewHolder>(
@@ -117,27 +116,14 @@ public class MainActivity extends AppCompatActivity {
                                 mProgress.setMessage("loading..");
                                 Intent intent= new Intent(MainActivity.this,DetailActivity.class);
                                 Log.d("image","clicked");
-                                Drawable drawable=viewHolder.image_new.getDrawable();
-                                Bitmap bitmap= ((BitmapDrawable)drawable).getBitmap();
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                                //Bitmap resized = Bitmap.createScaledBitmap(bitmap,(int)(bitmap.getWidth()*0.8), (int)(bitmap.getHeight()*0.8), true);
 
-
-                                byte[] b = baos.toByteArray();
-                                Log.d("image","  "+b.length);
-                                Bundle bundle =new Bundle();
-                                bundle.putByteArray("image",b);
                                 intent.putExtra("title",model.getTitle());
                                 intent.putExtra("description",model.getDesc());
                                 intent.putExtra("date",model.getDate());
-                                intent.putExtra("bundle",bundle);
+                                intent.putExtra("image",model.getImage());
                                 startActivity(intent);
                             }
                         }).start();
-
-
-
 
                     }
                 });
